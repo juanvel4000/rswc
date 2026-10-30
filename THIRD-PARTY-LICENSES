@@ -1,0 +1,7 @@
+libfetch:
+  License: BSD-3-Clause
+  Origin: https://github.com/NetBSD/src
+  Copyright:
+    - Dag-Erling Coïdan Smørgrav
+    - Joerg Sonnenberger
+    - Noel Kuntze

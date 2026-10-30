@@ -12,3 +12,5 @@ rswc is **not yet production-ready** for real-world usage.
 ## license
 
 BSD-3-Clause, see [LICENSE](LICENSE)
+
+> third-party source is specified in [THIRD-PARTY-LICENSES](THIRD-PARTY-LICENSES).
