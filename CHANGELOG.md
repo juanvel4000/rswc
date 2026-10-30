@@ -11,3 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add basic project structure
 - add libfetch source
+- add a basic top-level `meson.build`
+- add a basic rswc_fetch_data function
+- add a basic cli entrypoint
+- add basic `-Av46` flags
