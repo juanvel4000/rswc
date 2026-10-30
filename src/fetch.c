@@ -33,7 +33,8 @@ static void rswc_fetch_print_error(void)
     }
 }
 
-int rswc_fetch_data(const char *url, FILE *fp, int timeout)
+int rswc_fetch_data(const char *url, FILE *fp, int timeout,
+                    const char *fetchflags)
 {
     fetchIO *fetch;
     char buf[8192];
@@ -42,7 +43,7 @@ int rswc_fetch_data(const char *url, FILE *fp, int timeout)
 
     ret = 0;
     fetchTimeout = timeout;
-    fetch = fetchGetURL(url, "");
+    fetch = fetchGetURL(url, fetchflags);
 
     if (fetch == NULL) {
         rswc_fetch_print_error();

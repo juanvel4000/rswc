@@ -8,7 +8,7 @@
 
 static void usage(void)
 {
-    fprintf(stderr, "usage: rswc [-o output] [-T timeout] url\n");
+    fprintf(stderr, "usage: rswc [-Av46] [-o output] [-T timeout] url\n");
     exit(EXIT_FAILURE);
 }
 
@@ -16,18 +16,23 @@ int main(int argc, char **argv)
 {
     int opt;
     int timeout;
+    int res;
+    size_t nfetchflags;
     const char *output;
+    char fetchflags[8];
     char *end;
+    char *inferred;
     long tmint;
     FILE *fp;
-    int res;
-    char *inferred;
 
     timeout = 30;
     output = NULL;
     inferred = NULL;
 
-    while ((opt = getopt(argc, argv, "o:T:")) != -1) {
+    fetchflags[0] = '\0';
+    nfetchflags = 0;
+
+    while ((opt = getopt(argc, argv, "Av46o:T:")) != -1) {
         switch (opt) {
         case 'T':
             errno = 0;
@@ -44,6 +49,15 @@ int main(int argc, char **argv)
         case 'o':
             output = optarg;
             break;
+        case '4':
+        case '6':
+        case 'v':
+        case 'A':
+            if (nfetchflags < sizeof fetchflags - 1) {
+                fetchflags[nfetchflags++] = (char)opt;
+                fetchflags[nfetchflags] = '\0';
+            }
+            break;
         case '?':
             usage();
         }
@@ -56,7 +70,7 @@ int main(int argc, char **argv)
     argc -= optind;
 
     if (output != NULL && strcmp(output, "-") == 0)
-        return rswc_fetch_data(argv[0], stdout, timeout);
+        return rswc_fetch_data(argv[0], stdout, timeout, fetchflags);
 
     if (output == NULL) {
         inferred = rswc_fetch_filename(argv[0]);
@@ -72,7 +86,7 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    res = rswc_fetch_data(argv[0], fp, timeout);
+    res = rswc_fetch_data(argv[0], fp, timeout, fetchflags);
 
     if (fclose(fp) != 0) {
         fprintf(stderr, "rswc: %s\n", strerror(errno));
