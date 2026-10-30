@@ -4,7 +4,7 @@ a tiny utility to download files from the network.
 
 ## project status
 
-rswc is **not yet production-ready** for real-world usage. known limitations are documented above.
+rswc is **not yet production-ready** for real-world usage.
 
 - [CHANGELOG.md](CHANGELOG.md) -- release history
 - [CONTRIBUTING.md](CONTRIBUTING.md) -- how to report bugs and send patches
