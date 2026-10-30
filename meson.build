@@ -12,4 +12,6 @@ project(
   meson_version: '>=1.12',
 )
 
+inc = include_directories('include')
+
 subdir('libfetch')
