@@ -2,6 +2,7 @@
 #include <libfetch/fetch.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static void rswc_fetch_print_error(void)
@@ -22,6 +23,9 @@ static void rswc_fetch_print_error(void)
         return;
     case FETCH_ERRCAT_TLS:
         fprintf(stderr, "rswc: tls error\n");
+        return;
+    case FETCH_ERRCAT_URL:
+        fprintf(stderr, "rswc: invalid url\n");
         return;
     default:
         fprintf(stderr, "rswc: unknown error\n");
@@ -60,4 +64,37 @@ int rswc_fetch_data(const char *url, FILE *fp, int timeout)
 
     fetchIO_close(fetch);
     return ret;
+}
+
+char *rswc_fetch_filename(const char *url)
+{
+    struct url *u;
+    char *p;
+    char *name;
+
+    u = fetchParseURL(url);
+    name = NULL;
+
+    if (u == NULL) {
+        rswc_fetch_print_error();
+        return NULL;
+    }
+
+    if (u->doc != NULL) {
+        p = strpbrk(u->doc, "?#");
+        if (p != NULL)
+            *p = '\0';
+        name = fetchUnquoteFilename(u);
+    }
+
+    if (name == NULL || name[0] == '\0' || strchr(name, '/') != NULL ||
+        strcmp(name, ".") == 0 || strcmp(name, "..") == 0) {
+        free(name);
+        name = strdup("index.html");
+        if (name == NULL)
+            fprintf(stderr, "rswc: %s\n", strerror(errno));
+    }
+
+    fetchFreeURL(u);
+    return name;
 }

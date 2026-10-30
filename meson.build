@@ -15,3 +15,4 @@ project(
 inc = include_directories('include')
 
 subdir('libfetch')
+subdir('src')
