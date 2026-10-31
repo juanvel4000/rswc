@@ -1,0 +1,60 @@
+.Dd October 30, 2026
+.Dt RSWC 1
+.Os
+.Sh NAME
+.Nm rswc
+.Nd retrieve files from the network
+.Sh SYNOPSIS
+.Nm
+.Op Fl Av46
+.Op Fl o Ar output
+.Op Fl T Ar timeout
+.Ar url
+.Sh DESCRIPTION
+.Nm
+retrieves files from the network.
+the options are as follows:
+.Bl -tag -width Ds
+.It Fl A
+do not follow redirects.
+.It Fl v
+enable verbose output.
+.It Fl 4
+use IPv4 addresses only.
+.It Fl 6
+use IPv6 addresses only.
+.It Fl o Ar output
+write the retrieved data to
+.Ar output .
+if
+.Ar output
+is
+.Qq - ,
+write to stdout.
+.It Fl T Ar timeout
+set the network timeout to
+.Ar timeout
+seconds.
+.El
+.Sh EXIT STATUS
+.Ex -std
+.Sh EXAMPLES
+download a url:
+.Dl $ rswc https://example.com/file.tar.gz
+.Pp
+download a url to a specific output:
+.Dl $ rswc -o file.tgz https://example.com/file.tar.gz
+.Pp
+download a url with a fixed timeout:
+.Dl $ rswc -T 30 https://example.com/file.tar.gz
+.Pp
+download a file using IPv6:
+.Dl $ rswc -6 https://example.com/file.tar.gz
+.Pp
+download a file using IPv4:
+.Dl $ rswc -4 https://example.com/file.tar.gz
+.Pp
+download a file with verbose output:
+.Dl $ rswc -v https://example.com/file.tar.gz
+.Sh AUTHORS
+.An juanvel400 Aq me@juanvel400.com
